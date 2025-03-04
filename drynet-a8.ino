@@ -23,6 +23,7 @@ void setup() {
 
   // Initialize the temperature and humidity sensor
   errorDecoder(mySHTC3.begin());
+  preset = "manual";
 }
 
 void loop() {
@@ -33,7 +34,8 @@ void loop() {
 
   // Toggle FAN1 status every 30 seconds
   if ((currentMillis - lastMillis30000) > 30000) {
-    if (isFan1On) {
+
+    if (isFan1On || preset == "OFF") {
       isFan1On = 0;
       setFan1Status(0);  // Turn off FAN1
     } else {
@@ -52,6 +54,7 @@ void loop() {
     } else {
       setFan2Status(0);  // Turn on FAN1 at full speed
     }
+
     // Set the hotbed temperature based on the received JSON data
     setBedTemp(targetBedTemp, targetAirTemp);
     if (debug) {
@@ -59,9 +62,17 @@ void loop() {
       Serial.println(getBedTemp());
       Serial.println(millis());
       Serial.println(getAbsoluteHumidity());
+      Serial.println(preset);
+      Serial.println(dryTimer);
     }
     // Update last execution time
     lastMillis1000 = millis();
+    setPreset();
+    if (dryTimer > 1) {
+      dryTimer--;
+    } else {
+      preset = "OFF";
+    }
   }
 
   // Execute every 100 milliseconds
@@ -75,15 +86,15 @@ void loop() {
   }
 
   // Control the stepper motor based on isStepperOn flag
-if (isStepperOn) {
+  if (isStepperOn) {
     digitalWrite(XYE_ENABLE, LOW);  // Enable stepper motor
     if (!stepper.isSpinning()) {
-        stepper.spin(50);  // Keep spinning at 50 steps per second
+      stepper.spin(50);  // Keep spinning at 50 steps per second
     }
-} else {
+  } else {
     digitalWrite(XYE_ENABLE, HIGH);  // Disable stepper motor
-    stepper.stop();  // Stop motor movement
-}
+    stepper.stop();                  // Stop motor movement
+  }
 
   // Update lastMillis to the current time
   lastMillis = millis();

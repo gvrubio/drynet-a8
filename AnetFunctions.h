@@ -1,5 +1,5 @@
-#include "AnetConfig.h"  // Configuration file for Anet
-#include <thermistor.h>  // Library for thermistor temperature reading
+#include "AnetConfig.h"                            // Configuration file for Anet
+#include <thermistor.h>                            // Library for thermistor temperature reading
 #include <ContinuousStepper.h>                     // Library for controlling stepper motors
 #include <ContinuousStepper/Tickers/TimerOne.hpp>  // Timer for stepper motor control
 #include "SparkFun_SHTC3.h"                        // Library for SHTC3 temperature and humidity sensor
@@ -123,11 +123,11 @@ void setPreset() {
     dryTimer = 0;       // 0 hours
     preset = "manual";
   } else if (preset == "PLA") {
-    targetAirTemp = 0;  // Target ambient temperature
-    targetBedTemp = 0;  // Target bed temperature
-    isStepperOn = 0;    // Stepper motor state
-    isFan2On = 0;       // Fan 2 state
-    dryTimer = 28800;   //8 hours
+    targetAirTemp = 50;   // Target ambient temperature
+    targetBedTemp = 100;  // Target bed temperature
+    isStepperOn = 1;      // Stepper motor state
+    isFan2On = 1;         // Fan 2 state
+    dryTimer = 28800;     //8 hours
     preset = "manual";
   } else if (preset == "PET") {
     targetAirTemp = 0;  // Target ambient temperature
@@ -194,7 +194,12 @@ void setFanTemp(int temp) {
 void parseSerial() {
   if (Serial.available()) {
     deserializeJson(json, Serial);  // Deserialize JSON data from Serial
-
+    if (json.containsKey("preset")) {
+      preset = json["preset"].as<String>();
+    }
+    if (json.containsKey("dryTimer")) {
+      dryTimer = json["dryTimer"];
+    }
     if (json.containsKey("isStepperOn")) {
       isStepperOn = json["isStepperOn"];
     }
