@@ -1,3 +1,4 @@
+NOTE: This readme.md is AI generated, based on the source code. I will make a better guide with all the bells and whistles. Pinky promise.
 # DryNet-A8
 
 DryNet-A8 is a project that upcycles Anet A8 3D printer components into a functional filament dryer. By repurposing the printer's heated bed, fans, and electronics, this project provides an efficient way to dry filament using a networked or serial-controlled interface.
