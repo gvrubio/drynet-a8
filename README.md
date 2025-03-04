@@ -1,12 +1,13 @@
 # DryNet-A8
 
-DryNet-A8 is a firmware project for controlling Anet A8 3D printers using a serial-based JSON interface. This project allows users to send JSON commands over a serial connection to control various aspects of the printer, such as temperature, fans, and stepper motors.
+DryNet-A8 is a project that upcycles Anet A8 3D printer components into a functional filament dryer. By repurposing the printer's heated bed, fans, and electronics, this project provides an efficient way to dry filament using a networked or serial-controlled interface.
 
 ## Features
 
+- Converts Anet A8 components into a filament drying system
 - Serial-based control using JSON commands
 - Custom configuration via `AnetConfig.h`
-- Utility functions for enhanced printer operation (`AnetFunctions.h`)
+- Utility functions for enhanced drying operation (`AnetFunctions.h`)
 - Main firmware logic in `drynet-a8.ino`
 - Compatible with Arduino-based controllers
 
@@ -14,7 +15,8 @@ DryNet-A8 is a firmware project for controlling Anet A8 3D printers using a seri
 
 ### Requirements
 
-- Anet A8 3D Printer
+- Anet A8 3D Printer components (bed, fans, controller, etc.)
+- Enclosure or box for the filament dryer
 - Arduino IDE
 - Compatible microcontroller
 - USB Serial Connection
@@ -27,17 +29,18 @@ DryNet-A8 is a firmware project for controlling Anet A8 3D printers using a seri
    ```
 2. Open `drynet-a8.ino` in Arduino IDE.
 3. Configure your settings in `AnetConfig.h`.
-4. Compile and upload the firmware to your printer's controller.
+4. Assemble the filament dryer using the Anet A8 components.
+5. Compile and upload the firmware to your printer's controller.
 
 ## File Overview
 
-- **`AnetConfig.h`** - Configuration settings for printer and control.
-- **`AnetFunctions.h`** - Utility functions for handling printer operations.
+- **`AnetConfig.h`** - Configuration settings for drying and control.
+- **`AnetFunctions.h`** - Utility functions for handling drying operations.
 - **`drynet-a8.ino`** - Main firmware file containing core logic and JSON parsing.
 
 ## JSON Serial Commands
 
-The firmware listens for JSON commands over the serial interface. The following JSON keys can be used to control the printer:
+The firmware listens for JSON commands over the serial interface. The following JSON keys can be used to control the dryer:
 
 | JSON Key         | Type    | Description |
 |-----------------|---------|-------------|
@@ -62,9 +65,10 @@ To set a preset for PLA mode and enable the stepper motor, send the following JS
 
 ## Usage
 
-1. Connect to the printer via a serial terminal (e.g., Arduino Serial Monitor, PuTTY).
-2. Send JSON commands to control the printer.
-3. The firmware will parse and apply the settings accordingly.
+1. Assemble the filament dryer using Anet A8 components.
+2. Connect to the dryer via a serial terminal (e.g., Arduino Serial Monitor, PuTTY).
+3. Send JSON commands to control temperature, fans, and drying time.
+4. The firmware will parse and apply the settings accordingly.
 
 ## Contributing
 
