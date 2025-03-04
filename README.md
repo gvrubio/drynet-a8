@@ -6,7 +6,7 @@ DryNet-A8 is a project that upcycles Anet A8 3D printer components into a functi
 
 - Converts Anet A8 components into a filament drying system
 - Serial-based control using JSON commands
-- Custom configuration via `AnetConfig.h`
+- Utilizes Anet A8 mainboard for control
 - Utility functions for enhanced drying operation (`AnetFunctions.h`)
 - Main firmware logic in `drynet-a8.ino`
 - Compatible with Arduino-based controllers
@@ -23,18 +23,17 @@ DryNet-A8 is a project that upcycles Anet A8 3D printer components into a functi
 
 ### Steps
 
-1. Clone this repository:
+1. Build the Anet A8 3D printer first, ensuring all components are correctly wired and functional.
+2. Clone this repository:
    ```sh
    git clone https://github.com/gvrubio/drynet-a8.git
    ```
-2. Open `drynet-a8.ino` in Arduino IDE.
-3. Configure your settings in `AnetConfig.h`.
-4. Assemble the filament dryer using the Anet A8 components.
-5. Compile and upload the firmware to your printer's controller.
+3. Open `drynet-a8.ino` in Arduino IDE.
+4. Upload the firmware to the Anet A8 mainboard.
 
 ## File Overview
 
-- **`AnetConfig.h`** - Configuration settings for drying and control.
+- **`AnetConfig.h`** - Defines the pin mappings for the Anet A8 mainboard.
 - **`AnetFunctions.h`** - Utility functions for handling drying operations.
 - **`drynet-a8.ino`** - Main firmware file containing core logic and JSON parsing.
 
@@ -81,4 +80,3 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 ## Author
 
 [GitHub - gvrubio](https://github.com/gvrubio)
-
