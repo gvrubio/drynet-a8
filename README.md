@@ -4,7 +4,7 @@
 DryNet-A8 is a project that upcycles the prone-to-burn Anet A8 3D printer components into a functional filament dryer. By repurposing the printer's heated bed, fans, and electronics, this project provides an efficient way to dry filament using a networked or serial-controlled interface.
 
 **DISCLAIMER**: 
-You still have to do all the safety fixes recommended for the Anet for this project, I would not like to see your house burn fellas. 
+You still have to do all the safety fixes recommended for the Anet for this project, I would not like to see your house burn, fellas. 
 This firmware has much less safety features than standard Marlin or Klipper. 
 This does not have thermal runaway protection for now.
 Keep your dryer under watch, use smoke sensors, etc. This is an ongoing development project, it works, but it is early. 
