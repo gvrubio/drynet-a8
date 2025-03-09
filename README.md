@@ -19,8 +19,15 @@ DryNet-A8 is a project that upcycles Anet A8 3D printer components into a functi
 - Anet A8 3D Printer components (bed, fans, controller, etc.)
 - Enclosure or box for the filament dryer
 - Arduino IDE
-- Compatible microcontroller
-- USB Serial Connection
+- USB Cable
+  
+- EXTRAS:
+- 2x **12V Mosfet modules**, one for the bed, another for the computer fan
+- A **12v computer fan** to move the bed heat all around the enclosure
+- i2C Oled display, for when the local UI is ready
+- 1 shtc3 Humidity and Temperature sensor
+- A TXS0108E ttl logic converter board, for the extra modules that run at 3.3v.
+- 2MM Wire for anything power (PSU, Bed, Mosfets)
 
 ### Steps
 
