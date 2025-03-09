@@ -40,7 +40,7 @@ BASIC SAFETY: Solder your bed wires, add a fan to the PSU, get mosfets.
 
 ### Steps
 
-1. Build the Anet A8 3D printer first, ensuring all components are correctly wired and functional.
+1. Build the Drynet A8 hardware, ensuring all components are correctly wired and functional. GUIDE SOON.
 2. Clone this repository:
    ```sh
    git clone https://github.com/gvrubio/drynet-a8.git
