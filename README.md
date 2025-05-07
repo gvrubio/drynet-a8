@@ -1,12 +1,22 @@
+![path83](https://github.com/user-attachments/assets/97c6c39d-f574-43be-8745-9232d19bd2b8)
 # DryNet-A8
 
-DryNet-A8 is a project that upcycles Anet A8 3D printer components into a functional filament dryer. By repurposing the printer's heated bed, fans, and electronics, this project provides an efficient way to dry filament using a networked or serial-controlled interface.
+DryNet-A8 is a project that upcycles the prone-to-burn Anet A8 3D printer components into a functional filament dryer. By repurposing the printer's heated bed, fans, and electronics, this project provides an efficient way to dry filament using a networked or serial-controlled interface.
+
+**DISCLAIMER**: 
+You still have to do all the safety fixes recommended for the Anet for this project, I would not like to see your house burn, fellas. 
+This firmware has much less safety features than standard Marlin or Klipper. 
+This does not have thermal runaway protection for now.
+Keep your dryer under watch, use smoke sensors, etc. This is an ongoing development project, it works, but it is early. 
+Help would be much appreciated.
+
+BASIC SAFETY: Solder your bed wires, add a fan to the PSU, get mosfets.
 
 ## Features
 
 - Converts Anet A8 components into a filament drying system
 - Serial-based control using JSON commands
-- Custom configuration via `AnetConfig.h`
+- Utilizes Anet A8 mainboard for control
 - Utility functions for enhanced drying operation (`AnetFunctions.h`)
 - Main firmware logic in `drynet-a8.ino`
 - Compatible with Arduino-based controllers
@@ -18,23 +28,29 @@ DryNet-A8 is a project that upcycles Anet A8 3D printer components into a functi
 - Anet A8 3D Printer components (bed, fans, controller, etc.)
 - Enclosure or box for the filament dryer
 - Arduino IDE
-- Compatible microcontroller
-- USB Serial Connection
+- USB Cable
+  
+- EXTRAS:
+- 2x **12V Mosfet modules**, one for the bed, another for the computer fan
+- A **12v computer fan** to move the bed heat all around the enclosure
+- i2C Oled display, for when the local UI is ready
+- 1 shtc3 Humidity and Temperature sensor
+- A TXS0108E ttl logic converter board, for the extra modules that run at 3.3v.
+- 2MM Wire for anything power (PSU, Bed, Mosfets)
 
 ### Steps
 
-1. Clone this repository:
+1. Build the Drynet A8 hardware, ensuring all components are correctly wired and functional. GUIDE SOON.
+2. Clone this repository:
    ```sh
    git clone https://github.com/gvrubio/drynet-a8.git
    ```
-2. Open `drynet-a8.ino` in Arduino IDE.
-3. Configure your settings in `AnetConfig.h`.
-4. Assemble the filament dryer using the Anet A8 components.
-5. Compile and upload the firmware to your printer's controller.
+3. Open `drynet-a8.ino` in Arduino IDE.
+4. Upload the firmware to the Anet A8 mainboard.
 
 ## File Overview
 
-- **`AnetConfig.h`** - Configuration settings for drying and control.
+- **`AnetConfig.h`** - Defines the pin mappings for the Anet A8 mainboard.
 - **`AnetFunctions.h`** - Utility functions for handling drying operations.
 - **`drynet-a8.ino`** - Main firmware file containing core logic and JSON parsing.
 
@@ -81,4 +97,3 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 ## Author
 
 [GitHub - gvrubio](https://github.com/gvrubio)
-
