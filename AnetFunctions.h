@@ -67,6 +67,7 @@ unsigned long lastMillis = 0;       // Last recorded time for runtime tracking
 #define e 2.718281828459045235360287471352  // Euler's constant
 
 // Function to calculate absolute humidity using temperature and relative humidity
+// FROM https://gist.github.com/mcavalcantib/a58c1e18824f7f1bcf02526bb202b6cc
 float calculateAbsoluteHumidity(float hum, float temp) {
   float UA = ((6.112 * (pow(e, ((17.67 * temp) / (temp + 243.5)))) * hum * 2.1674) / (273.15 + temp));
   return UA;
@@ -130,16 +131,17 @@ void setPreset() {
     dryTimer = 28800;     //8 hours
     preset = "manual";
   } else if (preset == "PET") {
-    targetAirTemp = 0;  // Target ambient temperature
-    targetBedTemp = 0;  // Target bed temperature
-    isStepperOn = 0;    // Stepper motor state
-    isFan2On = 0;       // Fan 2 state
-    dryTimer = 28800;   //8 hours
+    targetAirTemp = 65;  // Target ambient temperature
+    targetBedTemp = 110;  // Target bed temperature
+    isStepperOn = 1;    // Stepper motor state
+    isFan2On = 1;       // Fan 2 state
+    dryTimer = 28800;
+    preset = "manual";   //8 hours
   } else if (preset == "TPU") {
-    targetAirTemp = 0;  // Target ambient temperature
-    targetBedTemp = 0;  // Target bed temperature
-    isStepperOn = 0;    // Stepper motor state
-    isFan2On = 0;       // Fan 2 state
+    targetAirTemp = 55;  // Target ambient temperature
+    targetBedTemp = 110;  // Target bed temperature
+    isStepperOn = 1;    // Stepper motor state
+    isFan2On = 1;       // Fan 2 state
     dryTimer = 28800;   //8 hours
     preset = "manual";
   }
@@ -172,10 +174,8 @@ void setBedStatus(bool status) {
 void setBedTemp(float bedTemp, float airTemp) {
   if (getBedTemp() < bedTemp - 0.1 && getAmbTemp() < airTemp) {
     setBedStatus(1);  // Turn on heater if temperature is too low
-    //setFan2Status(255);
   } else if (getAmbTemp() > airTemp || getBedTemp() > bedTemp + 0.1) {
     setBedStatus(0);  // Turn off heater if temperature is too high
-    //setFan2Status(255);
   }
 }
 
@@ -232,7 +232,6 @@ String readSerialString() {
   }
   return input;
 }
-
 
 void setMillis(unsigned long new_millis) {
   uint8_t oldSREG = SREG;

@@ -77,24 +77,26 @@ void loop() {
 
   // Execute every 100 milliseconds
   if ((currentMillis - lastMillis100) > 100) {
+    // Code here
     lastMillis100 = currentMillis;
   }
 
-  // Execute every 10 milliseconds (currently empty)
+  // Execute every 10 milliseconds
   if ((currentMillis - lastMillis10) > 10) {
+    // Control the stepper motor based on isStepperOn flag
+    if (isStepperOn) {
+      digitalWrite(XYE_ENABLE, LOW);  // Enable stepper motor
+      if (!stepper.isSpinning()) {
+        stepper.spin(50);  // Keep spinning at 50 steps per second
+      }
+    } else {
+      digitalWrite(XYE_ENABLE, HIGH);  // Disable stepper motor
+      stepper.stop();                  // Stop motor movement
+    }
     lastMillis10 = millis();
   }
 
-  // Control the stepper motor based on isStepperOn flag
-  if (isStepperOn) {
-    digitalWrite(XYE_ENABLE, LOW);  // Enable stepper motor
-    if (!stepper.isSpinning()) {
-      stepper.spin(50);  // Keep spinning at 50 steps per second
-    }
-  } else {
-    digitalWrite(XYE_ENABLE, HIGH);  // Disable stepper motor
-    stepper.stop();                  // Stop motor movement
-  }
+
 
   // Update lastMillis to the current time
   lastMillis = millis();
