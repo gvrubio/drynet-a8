@@ -114,6 +114,29 @@ float getAbsoluteHumidity() {
   }
 }
 
+// Use the endstops as an ugly but functional preset selector
+void hardButtonManagement() {
+  // PLA PRESET
+  if (digitalRead(X_STOP)) {
+    while (digitalRead(X_STOP)) {
+      delay(10);
+    }
+    preset = "PLA";
+  }
+  if (digitalRead(Y_STOP)) {
+    while (digitalRead(Y_STOP)) {
+      delay(10);
+    }
+    preset = "PET";
+  }
+  if (digitalRead(Z_STOP)) {
+    while (digitalRead(Z_STOP)) {
+      delay(10);
+    }
+    preset = "OFF";
+  }
+}
+
 //// SETTERS
 void setPreset() {
   if (preset == "OFF") {
@@ -131,18 +154,18 @@ void setPreset() {
     dryTimer = 28800;     //8 hours
     preset = "manual";
   } else if (preset == "PET") {
-    targetAirTemp = 65;  // Target ambient temperature
+    targetAirTemp = 65;   // Target ambient temperature
     targetBedTemp = 110;  // Target bed temperature
-    isStepperOn = 1;    // Stepper motor state
-    isFan2On = 1;       // Fan 2 state
+    isStepperOn = 1;      // Stepper motor state
+    isFan2On = 1;         // Fan 2 state
     dryTimer = 28800;
-    preset = "manual";   //8 hours
+    preset = "manual";  //8 hours
   } else if (preset == "TPU") {
-    targetAirTemp = 55;  // Target ambient temperature
+    targetAirTemp = 55;   // Target ambient temperature
     targetBedTemp = 110;  // Target bed temperature
-    isStepperOn = 1;    // Stepper motor state
-    isFan2On = 1;       // Fan 2 state
-    dryTimer = 28800;   //8 hours
+    isStepperOn = 1;      // Stepper motor state
+    isFan2On = 1;         // Fan 2 state
+    dryTimer = 28800;     //8 hours
     preset = "manual";
   }
 }

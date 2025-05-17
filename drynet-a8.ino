@@ -14,6 +14,11 @@ void setup() {
   pinMode(FAN2, OUTPUT);
   pinMode(XYE_ENABLE, OUTPUT);  // Stepper motor enable pin
 
+  // Set pin modes for various inputs
+  pinMode(X_STOP, INPUT);
+  pinMode(Y_STOP, INPUT);
+  pinMode(Z_STOP, INPUT);
+
   // Initialize stepper motor with direction and step pins
   stepper.begin(E_STEP, E_DIR);
   stepper.spin(50);  // Start spinning the stepper motor at 50 steps per second
@@ -83,6 +88,7 @@ void loop() {
 
   // Execute every 10 milliseconds
   if ((currentMillis - lastMillis10) > 10) {
+    hardButtonManagement();
     // Control the stepper motor based on isStepperOn flag
     if (isStepperOn) {
       digitalWrite(XYE_ENABLE, LOW);  // Enable stepper motor
