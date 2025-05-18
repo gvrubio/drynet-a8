@@ -117,20 +117,22 @@ float getAbsoluteHumidity() {
 // Use the endstops as an ugly but functional preset selector
 void hardButtonManagement() {
   // PLA PRESET
-  if (digitalRead(X_STOP)) {
-    while (digitalRead(X_STOP)) {
+  if (!digitalRead(X_STOP)) {
+    while (!digitalRead(X_STOP)) {
       delay(10);
     }
     preset = "PLA";
   }
-  if (digitalRead(Y_STOP)) {
-    while (digitalRead(Y_STOP)) {
+  // PETG PRESET
+  if (!digitalRead(Y_STOP)) {
+    while (!digitalRead(Y_STOP)) {
       delay(10);
     }
     preset = "PET";
   }
-  if (digitalRead(Z_STOP)) {
-    while (digitalRead(Z_STOP)) {
+  // OFF
+  if (!digitalRead(Z_STOP)) {
+    while (!digitalRead(Z_STOP)) {
       delay(10);
     }
     preset = "OFF";
