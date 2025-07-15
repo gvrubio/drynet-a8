@@ -92,7 +92,7 @@ Feel free to submit pull requests or open issues for bug reports and feature req
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+This project is licensed under GNU GPL V3. See [LICENSE](LICENSE) for details.
 
 ## Author
 

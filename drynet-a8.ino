@@ -28,11 +28,10 @@ void setup() {
 
   // Initialize the temperature and humidity sensor
   errorDecoder(mySHTC3.begin());
-  preset = "manual";
+  preset = "OFF";
 }
 
 void loop() {
-
   parseSerial();
   // Get the current time in milliseconds
   unsigned long currentMillis = millis();
@@ -51,25 +50,29 @@ void loop() {
     lastMillis30000 = millis();
   }
 
-
   // Execute every 1 second
   if ((currentMillis - lastMillis1000) > 1000) {
-    if (isFan2On) {
-      setFan2Status(255);  // Turn off FAN1
-    } else {
-      setFan2Status(0);  // Turn on FAN1 at full speed
-    }
 
     // Set the hotbed temperature based on the received JSON data
     setBedTemp(targetBedTemp, targetAirTemp);
     if (debug) {
-      Serial.println(getAmbTemp());
-      Serial.println(getBedTemp());
-      Serial.println(millis());
-      Serial.println(getAbsoluteHumidity());
-      Serial.println(preset);
-      Serial.println(dryTimer);
+      outJson["currentAirTemp"] = getAmbTemp();
+      outJson["currentBedTemp"] = getBedTemp();
+      outJson["currentAbsHumidity"] = getAbsoluteHumidity();
+      outJson["preset"] = preset;
+      outJson["dryTimer"] = dryTimer;
+      serializeJson(outJson, Serial);
+      //millis();
     }
+
+    if (isFan2On) {
+      // Turn off FAN1
+      setFan2Status(255);
+    } else {
+      // Turn on FAN1 at full speed
+      setFan2Status(0);
+    }
+
     // Update last execution time
     lastMillis1000 = millis();
     setPreset();
@@ -77,6 +80,7 @@ void loop() {
       dryTimer--;
     } else {
       preset = "OFF";
+      status = "RUN";
     }
   }
 
@@ -101,8 +105,6 @@ void loop() {
     }
     lastMillis10 = millis();
   }
-
-
 
   // Update lastMillis to the current time
   lastMillis = millis();

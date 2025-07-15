@@ -22,6 +22,7 @@ SHTC3 mySHTC3;
 
 //// JSON document for serial communication
 JsonDocument json;
+JsonDocument outJson;
 
 // ======================
 // Variable Declarations
@@ -41,6 +42,7 @@ float currentAirTemp = 0;  // Current ambient temperature
 float currentBedTemp = 0;  // Current bed temperature
 float targetAirTemp = 0;   // Target ambient temperature
 float targetBedTemp = 0;   // Target bed temperature
+float currentAbsHumidity;  // Current Absolute Humidity
 
 // Presets
 // Manual: no change
@@ -49,7 +51,7 @@ float targetBedTemp = 0;   // Target bed temperature
 // PETG: 60C 8h 120B
 // TPU: 65C 8H 120B
 String preset = "manual";  // Default preset
-
+String status = "STOP";    // RUN, RUNNING, STOP
 // Time control variables
 extern volatile unsigned long timer0_millis;
 unsigned long lastMillis30000 = 0;  // Last recorded time for 30s interval
@@ -105,7 +107,8 @@ float getAbsoluteHumidity() {
   if (mySHTC3.lastStatus == SHTC3_Status_Nominal) {  // Check if sensor data is valid
     float i2cRelHum = mySHTC3.toPercent();           // Get relative humidity
     float i2ctemp = mySHTC3.toDegC();                // Get temperature
-    return calculateAbsoluteHumidity(i2cRelHum, i2ctemp);
+    currentAbsHumidity = calculateAbsoluteHumidity(i2cRelHum, i2ctemp);
+    return currentAbsHumidity;
   } else {
     Serial.print("Update failed, error: ");
     errorDecoder(mySHTC3.lastStatus);
@@ -122,6 +125,7 @@ void hardButtonManagement() {
       delay(10);
     }
     preset = "PLA";
+    status = "RUN";
   }
   // PETG PRESET
   if (!digitalRead(Y_STOP)) {
@@ -129,6 +133,7 @@ void hardButtonManagement() {
       delay(10);
     }
     preset = "PET";
+    status = "RUN";
   }
   // OFF
   if (!digitalRead(Z_STOP)) {
@@ -136,39 +141,40 @@ void hardButtonManagement() {
       delay(10);
     }
     preset = "OFF";
+    status = "RUN";
   }
 }
 
 //// SETTERS
 void setPreset() {
-  if (preset == "OFF") {
+  if (preset == "OFF" && status == "RUN") {
     targetAirTemp = 0;  // Target ambient temperature
     targetBedTemp = 0;  // Target bed temperature
     isStepperOn = 0;    // Stepper motor state
     isFan2On = 0;       // Fan 2 state
     dryTimer = 0;       // 0 hours
-    preset = "manual";
-  } else if (preset == "PLA") {
+    status = "STOP";
+  } else if (preset == "PLA" && status == "RUN") {
     targetAirTemp = 50;   // Target ambient temperature
     targetBedTemp = 100;  // Target bed temperature
     isStepperOn = 1;      // Stepper motor state
     isFan2On = 1;         // Fan 2 state
     dryTimer = 28800;     //8 hours
-    preset = "manual";
-  } else if (preset == "PET") {
+    status = "RUNNING";
+  } else if (preset == "PET" && status == "RUN") {
     targetAirTemp = 65;   // Target ambient temperature
     targetBedTemp = 110;  // Target bed temperature
     isStepperOn = 1;      // Stepper motor state
     isFan2On = 1;         // Fan 2 state
     dryTimer = 28800;
-    preset = "manual";  //8 hours
-  } else if (preset == "TPU") {
+    status = "RUNNING";  //8 hours
+  } else if (preset == "TPU" && status == "RUN") {
     targetAirTemp = 55;   // Target ambient temperature
     targetBedTemp = 110;  // Target bed temperature
     isStepperOn = 1;      // Stepper motor state
     isFan2On = 1;         // Fan 2 state
     dryTimer = 28800;     //8 hours
-    preset = "manual";
+    status = "RUNNING";
   }
 }
 
