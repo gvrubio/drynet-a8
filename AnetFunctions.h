@@ -147,7 +147,7 @@ void hardButtonManagement() {
 
 //// SETTERS
 void setPreset() {
-  if (preset == "OFF" && status == "RUN") {
+  if (preset == "OFF" && (status == "RUN" || status == "RUNNING")) {
     targetAirTemp = 0;  // Target ambient temperature
     targetBedTemp = 0;  // Target bed temperature
     isStepperOn = 0;    // Stepper motor state
@@ -237,20 +237,20 @@ void parseSerial() {
     if (json.containsKey("isFan1On")) {
       isFan1On = json["isFan1On"];
     }
-
     if (json.containsKey("isFan2On")) {
       isFan2On = json["isFan2On"];
     }
-
     if (json.containsKey("targetAirTemp")) {
       targetAirTemp = json["targetAirTemp"];
     }
-
     if (json.containsKey("targetBedTemp")) {
       targetBedTemp = json["targetBedTemp"];
     }
     if (json.containsKey("debug")) {
       debug = json["debug"];
+    }
+    if (json.containsKey("status")) {
+      status = json["status"].as<String>();
     }
   }
 }

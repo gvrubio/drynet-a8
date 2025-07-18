@@ -38,7 +38,6 @@ void loop() {
 
   // Toggle FAN1 status every 30 seconds
   if ((currentMillis - lastMillis30000) > 30000) {
-
     if (isFan1On || preset == "OFF") {
       isFan1On = 0;
       setFan1Status(0);  // Turn off FAN1
@@ -59,9 +58,11 @@ void loop() {
       outJson["currentAirTemp"] = getAmbTemp();
       outJson["currentBedTemp"] = getBedTemp();
       outJson["currentAbsHumidity"] = getAbsoluteHumidity();
-      outJson["preset"] = preset;
       outJson["dryTimer"] = dryTimer;
+      outJson["status"] = status;
+      outJson["preset"] = preset;
       serializeJson(outJson, Serial);
+      Serial.println("\n");
       //millis();
     }
 
@@ -80,7 +81,6 @@ void loop() {
       dryTimer--;
     } else {
       preset = "OFF";
-      status = "RUN";
     }
   }
 
